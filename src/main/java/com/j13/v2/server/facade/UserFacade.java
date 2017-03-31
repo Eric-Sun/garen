@@ -1,21 +1,17 @@
 package com.j13.v2.server.facade;
 
-import com.j13.v2.server.core.HDConstants;
-import com.j13.v2.server.daos.AdminUserDAO;
-import com.j13.v2.server.daos.UserDAO;
-import com.j13.v2.server.poppy.exceptions.CommonException;
 import com.j13.v2.server.core.ErrorCode;
+import com.j13.v2.server.daos.UserDAO;
 import com.j13.v2.server.facade.req.UserLoginReq;
 import com.j13.v2.server.facade.req.UserRegisterReq;
 import com.j13.v2.server.facade.resp.UserLoginResp;
 import com.j13.v2.server.facade.resp.UserRegisterResp;
 import com.j13.v2.server.poppy.anno.Action;
 import com.j13.v2.server.poppy.core.CommandContext;
+import com.j13.v2.server.poppy.exceptions.CommonException;
 import com.j13.v2.server.poppy.util.BeanUtils;
-import com.j13.v2.server.services.ThumbService;
 import com.j13.v2.server.utils.MD5Util;
 import com.j13.v2.server.vos.UserVO;
-import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +31,6 @@ public class UserFacade {
 
     @Autowired
     UserDAO userDAO;
-    @Autowired
-    AdminUserDAO adminUserDAO;
-    @Autowired
-    ThumbService thumbService;
 
 
     @Action(name = "user.login", desc = "用户登陆")
@@ -71,10 +63,8 @@ public class UserFacade {
         String mobile = req.getMobile();
         String password = req.getPassword();
         String nickName = req.getNickName();
-        int isMachine = req.getIsMachine();
-        FileItem file = req.getHeadImg();
         // check mobile exists
-        if (isMachine != HDConstants.USER_IS_MACHINE && userDAO.mobileExisted(mobile)) {
+        if (userDAO.mobileExisted(mobile)) {
             LOG.info("mobile existed. mobile={}", mobile);
             throw new CommonException(ErrorCode.User.MOBILE_EXISTED);
         }
@@ -86,13 +76,7 @@ public class UserFacade {
         }
 
         String passwordAfterMD5 = MD5Util.getMD5String(password);
-        String fileName = null;
-        if (file != null) {
-            fileName = thumbService.uploadThumb(file);
-        } else {
-            fileName = thumbService.randomDefaultThumb();
-        }
-        long id = userDAO.register(mobile, passwordAfterMD5, nickName, isMachine, fileName);
+        long id = userDAO.register(mobile, passwordAfterMD5, nickName);
         resp.setId(id);
         return resp;
     }

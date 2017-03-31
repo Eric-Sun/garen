@@ -91,11 +91,15 @@ public class ApiDispatcher {
 
     private CommandContext genCommandContextObject(RequestData requestData) {
         CommandContext ctxt = new CommandContext();
-        ctxt.setT(requestData.getData().get(T_KEY).toString());
+        if (requestData.getData().get(T_KEY) != null) {
+            ctxt.setT(requestData.getData().get(T_KEY).toString());
+        }
         if (requestData.getData().get(UID_KEY) != null) {
             ctxt.setUid(new Integer(requestData.getData().get(UID_KEY).toString()));
         }
-        ctxt.setDeviceId(requestData.getData().get(DEVICE_KEY).toString());
+        if (requestData.getData().get(DEVICE_KEY) != null) {
+            ctxt.setDeviceId(requestData.getData().get(DEVICE_KEY).toString());
+        }
 
         return ctxt;
     }

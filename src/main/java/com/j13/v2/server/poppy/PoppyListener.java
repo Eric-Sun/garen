@@ -17,11 +17,13 @@ public class PoppyListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        PropertiesConfiguration.getInstance().addResource("/jax.properties");
+        PropertiesConfiguration.getInstance().addResource("/v2.properties");
         LOG.info("load all properties.");
         applicationContext = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
         JedisManager jedisManager = applicationContext.getBean(JedisManager.class);
         jedisManager.init();
+
+
     }
 
     @Override
