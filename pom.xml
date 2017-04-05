@@ -190,7 +190,7 @@
                     <archive>
                         <index>true</index>
                         <manifest>
-                            <mainClass>com.j13.v2.server.poppy.starter.ServerStarter</mainClass>
+                            <mainClass>com.j13.garen.poppy.starter.ServerStarter</mainClass>
                             <classpathPrefix>dependency/</classpathPrefix>
                         </manifest>
 
