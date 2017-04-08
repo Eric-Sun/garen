@@ -29,7 +29,7 @@ public class ResourceDAO {
     @Autowired
     JdbcTemplate j;
 
-    public List<AuthorityVO> getAuthorityListByName(String name) {
+    public List<AuthorityVO> getAuthorityListByResourceName(String name) {
         String sql = "select a.id,a.name from authority a, authority_resource ar, resource r " +
                 "where a.id=ar.authority_id and r.id = ar.resource_id and r.name=? and a.deleted=? and ar.deleted=? and r.deleted=?";
         return j.query(sql, new Object[]{name, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED}, new BeanPropertyRowMapper<AuthorityVO>(AuthorityVO.class));

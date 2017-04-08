@@ -7,14 +7,14 @@ import java.util.List;
 
 public class AccountGetAuthorityByNameResp {
 
-    @Parameter(desc="resourceIdList")
-    private List<Integer> resourceIdList = Lists.newLinkedList();
+    @Parameter(desc="authority object list")
+    private List<AuthorityGetResp> data = Lists.newLinkedList();
 
-    public List<Integer> getResourceIdList() {
-        return resourceIdList;
+    public List<AuthorityGetResp> getData() {
+        return data;
     }
 
-    public void setResourceIdList(List<Integer> resourceIdList) {
-        this.resourceIdList = resourceIdList;
+    public void setData(List<AuthorityGetResp> data) {
+        this.data = data;
     }
 }

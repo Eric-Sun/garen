@@ -2,7 +2,7 @@ package com.j13.garen.facade.req;
 
 import com.j13.garen.poppy.anno.Parameter;
 
-public class ResourcetAuthorityListByNameReq {
+public class ResourcetAuthorityListByResourceNameReq {
     @Parameter(desc="resource name")
     private String name;
 

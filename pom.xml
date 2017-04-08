@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.j13</groupId>
     <artifactId>garen</artifactId>
-    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>label Maven Webapp</name>
     <url>http://maven.apache.org</url>

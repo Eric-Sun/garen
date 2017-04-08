@@ -8,7 +8,7 @@ public class AuthorityUpdateReq {
     @Parameter(desc="name")
     private String name;
     @Parameter(desc="resource id array. as ['1','2']")
-    private String resouceIdArray;
+    private String resourceIdArray;
 
     public String getName() {
         return name;
@@ -26,11 +26,11 @@ public class AuthorityUpdateReq {
         this.id = id;
     }
 
-    public String getResouceIdArray() {
-        return resouceIdArray;
+    public String getResourceIdArray() {
+        return resourceIdArray;
     }
 
-    public void setResouceIdArray(String resouceIdArray) {
-        this.resouceIdArray = resouceIdArray;
+    public void setResourceIdArray(String resourceIdArray) {
+        this.resourceIdArray = resourceIdArray;
     }
 }

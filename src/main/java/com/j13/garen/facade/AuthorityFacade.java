@@ -13,7 +13,6 @@ import com.j13.garen.poppy.util.BeanUtils;
 import com.j13.garen.vos.AuthorityVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class AuthorityFacade {
         CommonResultResp resp = new CommonResultResp();
         int id = req.getId();
         String name = req.getName();
-        String[] resourceIds = JSON.parseObject(req.getResouceIdArray(), String[].class);
+        String[] resourceIds = JSON.parseObject(req.getResourceIdArray(), String[].class);
         authorityDAO.update(id, name, resourceIds);
         return resp;
     }

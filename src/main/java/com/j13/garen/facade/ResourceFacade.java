@@ -20,10 +20,10 @@ public class ResourceFacade {
     @Autowired
     ResourceDAO resourceDAO;
 
-    @Action(name = "resource.getAuthorityListByName", desc = "get authority list by resource name ")
-    public AuthorityListResp getAuthorityListByName(CommandContext ctxt, ResourcetAuthorityListByNameReq req) {
+    @Action(name = "resource.getAuthorityListByResourceName", desc = "get authority list by resource name ")
+    public AuthorityListResp getAuthorityListByResourceName(CommandContext ctxt, ResourcetAuthorityListByResourceNameReq req) {
         AuthorityListResp resp = new AuthorityListResp();
-        List<AuthorityVO> list = resourceDAO.getAuthorityListByName(req.getName());
+        List<AuthorityVO> list = resourceDAO.getAuthorityListByResourceName(req.getName());
         for (AuthorityVO vo : list) {
             AuthorityGetResp r = new AuthorityGetResp();
             BeanUtils.copyProperties(r, vo);

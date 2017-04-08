@@ -36,8 +36,8 @@ public class PainterInfoDAO {
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 final PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                 pstmt.setInt(1, accountId);
-                pstmt.setString(2, mobile);
-                pstmt.setString(3, brief);
+                pstmt.setString(2, brief);
+                pstmt.setString(3, mobile);
                 pstmt.setString(4, realName);
                 return pstmt;
             }
@@ -86,6 +86,11 @@ public class PainterInfoDAO {
             }
         });
         return vo2;
+    }
+
+    public boolean checkExisted(int accountId) {
+        String sql = "select count(1) from painter_info where account_id=? and deleted=?";
+        return j.queryForObject(sql, new Object[]{accountId, Constants.DB.NOT_DELETED}, Integer.class) == 0 ? false : true;
     }
 
 

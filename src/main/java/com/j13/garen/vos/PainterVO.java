@@ -2,7 +2,6 @@ package com.j13.garen.vos;
 
 public class PainterVO {
     private int accountId;
-    private String accountName;
     private String realName;
     private String brief;
     private String mobile;
@@ -13,14 +12,6 @@ public class PainterVO {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
     }
 
     public String getRealName() {
