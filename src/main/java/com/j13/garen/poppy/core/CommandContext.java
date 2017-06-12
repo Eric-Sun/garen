@@ -7,6 +7,15 @@ public class CommandContext {
     private int uid = 0;
     private String t;
     private String deviceId;
+    private String postData;
+
+    public String getPostData() {
+        return postData;
+    }
+
+    public void setPostData(String postData) {
+        this.postData = postData;
+    }
 
     public String getDeviceId() {
         return deviceId;

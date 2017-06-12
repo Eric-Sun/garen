@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,7 +37,7 @@ public class ApiDispatcher {
     TicketManager ticketManager;
 
 
-    public Object dispatch(String act, RequestData requestData) {
+    public Object dispatch(String act, RequestData requestData, String postData) {
 
         Map<String, ActionMethodInfo> maps = actionServiceLoader.getActionInfoMap();
         ActionMethodInfo ami = maps.get(act);
@@ -55,7 +56,7 @@ public class ApiDispatcher {
             LOG.debug(" type = {}, name = {}", pi.getClazz(), pi.getName());
             if (pi.getClazz().equals(CommandContext.class)) {
                 // get and set context
-                CommandContext ctxt = genCommandContextObject(requestData);
+                CommandContext ctxt = genCommandContextObject(requestData, postData);
                 inputParams.add(ctxt);
             } else {
                 // request object
@@ -85,12 +86,12 @@ public class ApiDispatcher {
             if (e.getTargetException().getClass().equals(CommonException.class)) {
                 return new ErrorResponse(((CommonException) e.getTargetException()).getErrorCode());
             }
-            LOG.error("",e);
+            LOG.error("", e);
             return new ErrorResponse(ErrorCode.System.ACTION_REFLECT_ERROR);
         }
     }
 
-    private CommandContext genCommandContextObject(RequestData requestData) {
+    private CommandContext genCommandContextObject(RequestData requestData, String postData) {
         CommandContext ctxt = new CommandContext();
         if (requestData.getData().get(T_KEY) != null) {
             ctxt.setT(requestData.getData().get(T_KEY).toString());
@@ -100,6 +101,9 @@ public class ApiDispatcher {
         }
         if (requestData.getData().get(DEVICE_KEY) != null) {
             ctxt.setDeviceId(requestData.getData().get(DEVICE_KEY).toString());
+        }
+        if (!StringUtils.isEmpty(postData)) {
+            ctxt.setPostData(postData);
         }
 
         return ctxt;

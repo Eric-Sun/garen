@@ -60,7 +60,7 @@ public class ItemFacade {
             throw new CommonException(ErrorCode.Item.NO_ITEM_RETURN);
         }
         BeanUtils.copyProperties(resp, item);
-        resp.setItemId(req.getItemId());
+        resp.setId(req.getItemId());
         return resp;
     }
 

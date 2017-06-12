@@ -12,6 +12,24 @@ public class OrderVO {
     private float finalPrice;
     private int status;
     private long createtime;
+    private String img;
+    private String contactMobile;
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public long getCreatetime() {
         return createtime;

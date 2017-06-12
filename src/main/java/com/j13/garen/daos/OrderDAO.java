@@ -23,12 +23,13 @@ public class OrderDAO {
     @Autowired
     JdbcTemplate j;
 
-    public int add(final int userId, final int itemId, final float finalPrice, final int status) {
+    public int add(final int userId, final int itemId, final float finalPrice, final int status, final String img,
+                   final String contactMobile) {
         KeyHolder holder = new GeneratedKeyHolder();
         final String sql = "insert into `order` " +
-                "(user_id,item_id,final_price,status,createtime,updatetime) " +
+                "(user_id,item_id,final_price,status,createtime,updatetime,img,contact_mobile) " +
                 "values" +
-                "(?,?,?,?,now(),now())";
+                "(?,?,?,?,now(),now(),?,?)";
         j.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -37,6 +38,8 @@ public class OrderDAO {
                 pstmt.setInt(2, itemId);
                 pstmt.setFloat(3, finalPrice);
                 pstmt.setInt(4, status);
+                pstmt.setString(5, img);
+                pstmt.setString(6, contactMobile);
                 return pstmt;
             }
         }, holder);
@@ -50,19 +53,36 @@ public class OrderDAO {
         j.update(sql, new Object[]{Constants.DB.DELETED, orderId});
     }
 
-    public void updateBasicInfo(int orderId, int itemId, float finalPrice) {
-        String sql = "update `order` set item_id=?,final_price=?,updatetime=now() where id=?";
-        j.update(sql, new Object[]{itemId, finalPrice, orderId});
+    public void updateBasicInfo(int orderId, int itemId, float finalPrice, String img, String contactMobile) {
+        String sql = "update `order` set item_id=?,final_price=?,updatetime=now(),img=?,contact_mobile=? " +
+                "where id=? and deleted=?";
+        j.update(sql, new Object[]{itemId, finalPrice, img, contactMobile, orderId, Constants.DB.NOT_DELETED});
+    }
+
+    /**
+     * without img
+     *
+     * @param orderId
+     * @param itemId
+     * @param finalPrice
+     */
+    public void updateBasicInfo(int orderId, int itemId, float finalPrice, String contactMobile) {
+        String sql = "update `order` set item_id=?,final_price=?,updatetime=now(),contact_mobile=? " +
+                "where id=? and deleted=?";
+        j.update(sql, new Object[]{itemId, finalPrice, contactMobile, orderId, Constants.DB.NOT_DELETED});
     }
 
     public void updateStatus(int orderId, int status) {
-        String sql = "update `order` set status=?,updatetime=now() where id=?";
-        j.update(sql, new Object[]{status, orderId});
+        String sql = "update `order` set status=?,updatetime=now() where id=? and deleted=?";
+        j.update(sql, new Object[]{status, orderId, Constants.DB.NOT_DELETED});
     }
 
     public OrderVO get(int orderId) {
-        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime from `order` o left outer join user u on u.id=o.user_id left outer join item i on i.id=o.item_id where o.id=?";
-        return j.queryForObject(sql, new Object[]{orderId}, new RowMapper<OrderVO>() {
+        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime,o.img,o.id,o.contact_mobile " +
+                "from `order` o " +
+                "left outer join user u on u.id=o.user_id" +
+                " left outer join item i on i.id=o.item_id where o.id=? and o.deleted=? and i.deleted=? and u.deleted=?";
+        return j.queryForObject(sql, new Object[]{orderId, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED}, new RowMapper<OrderVO>() {
             @Override
             public OrderVO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 OrderVO vo = new OrderVO();
@@ -73,6 +93,9 @@ public class OrderDAO {
                 vo.setUserName(rs.getString(5));
                 vo.setItemName(rs.getString(6));
                 vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setImg(rs.getString(8));
+                vo.setId(rs.getInt(9));
+                vo.setContactMobile(rs.getString(10));
                 return vo;
             }
         });
@@ -80,8 +103,11 @@ public class OrderDAO {
 
 
     public List<OrderVO> list(int sizePerPage, int pageNum) {
-        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime from `order` o left outer join user u on u.id=o.user_id left outer join item i on i.id=o.item_id limit ?,? ";
-        return j.query(sql, new Object[]{sizePerPage * pageNum, sizePerPage}, new RowMapper<OrderVO>() {
+        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime,o.img,o.id,o.contact_mobile " +
+                " from `order` o " +
+                "left outer join user u on u.id=o.user_id " +
+                "left outer join item i on i.id=o.item_id where o.deleted=? and u.deleted=? and i.deleted=? limit ?,? ";
+        return j.query(sql, new Object[]{Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, sizePerPage * pageNum, sizePerPage}, new RowMapper<OrderVO>() {
             @Override
             public OrderVO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 OrderVO vo = new OrderVO();
@@ -89,17 +115,24 @@ public class OrderDAO {
                 vo.setItemId(rs.getInt(2));
                 vo.setFinalPrice(rs.getFloat(3));
                 vo.setStatus(rs.getInt(4));
-                vo.setUserName(rs.getString(5));
-                vo.setItemName(rs.getString(6));
+                vo.setItemName(rs.getString(5));
+                vo.setUserName(rs.getString(6));
                 vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setImg(rs.getString(8));
+                vo.setId(rs.getInt(9));
+                vo.setContactMobile(rs.getString(10));
                 return vo;
             }
         });
     }
 
     public List<OrderVO> list(int sizePerPage, int pageNum, int status) {
-        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime from `order` o left outer join user u on u.id=o.user_id left outer join item i on i.id=o.item_id where status=? limit ?,? ";
-        return j.query(sql, new Object[]{status, sizePerPage * pageNum, sizePerPage}, new RowMapper<OrderVO>() {
+        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime,o.img,o.id " +
+                "from `order` o " +
+                "left outer join user u on u.id=o.user_id " +
+                "left outer join item i on i.id=o.item_id " +
+                "where status=? and o.deleted=? and u.deleted=? and i.deleted=? limit ?,? ";
+        return j.query(sql, new Object[]{status, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, sizePerPage * pageNum, sizePerPage}, new RowMapper<OrderVO>() {
             @Override
             public OrderVO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 OrderVO vo = new OrderVO();
@@ -110,6 +143,8 @@ public class OrderDAO {
                 vo.setUserName(rs.getString(5));
                 vo.setItemName(rs.getString(6));
                 vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setImg(rs.getString(8));
+                vo.setId(rs.getInt(9));
                 return vo;
             }
         });

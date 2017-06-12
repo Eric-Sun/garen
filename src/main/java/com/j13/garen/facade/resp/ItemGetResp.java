@@ -6,16 +6,16 @@ public class ItemGetResp {
     @Parameter(desc="item's name")
     private String name;
     @Parameter(desc="item's id")
-    private int itemId;
+    private int id;
     @Parameter(desc="item's price")
     private float price;
 
-    public int getItemId() {
-        return itemId;
+    public int getId() {
+        return id;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

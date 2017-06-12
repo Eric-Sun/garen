@@ -72,7 +72,7 @@ public class ItemDAO {
                 ItemVO vo = new ItemVO();
                 vo.setName(rs.getString(1));
                 vo.setPrice(rs.getFloat(2));
-                vo.setItemId(rs.getInt(3));
+                vo.setId(rs.getInt(3));
                 return vo;
             }
         });

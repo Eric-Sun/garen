@@ -50,13 +50,9 @@ public class ThumbService {
     }
 
 
-    public String getThumbSaveFile(String fileName) {
+    private String getThumbSaveFile(String fileName) {
         return PropertiesConfiguration.getInstance().getStringValue("local.img.dir") + File.separator + fileName;
     }
 
-
-    public String randomDefaultThumb() {
-        return "aaa";
-    }
 
 }

@@ -3,14 +3,14 @@ package com.j13.garen.vos;
 public class ItemVO {
     private String name;
     private float price;
-    private int itemId;
+    private int id;
 
-    public int getItemId() {
-        return itemId;
+    public int getId() {
+        return id;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

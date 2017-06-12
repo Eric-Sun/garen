@@ -31,4 +31,13 @@ public class Constants {
     }
 
 
+    public static class Wechat {
+        public static String TOKEN = "aaaa";
+//        public static String APPID = "wx0d07487890a95d68";
+//        public static String AppSecret = "e71556c2f7b94b916451e0fc81b04f02";
+
+        public static String APPID = "wxe2ff872ab7c97d17";
+        public static String AppSecret = "62bc146e2e9e29c8973d814949dd7a9f";
+    }
+
 }

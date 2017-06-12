@@ -4,7 +4,7 @@ import com.j13.garen.poppy.anno.Parameter;
 
 public class OrderGetResp {
     @Parameter(desc = "order id")
-    private int orderId;
+    private int id;
     @Parameter(desc = "user id")
     private int userId;
     @Parameter(desc = "user's name")
@@ -19,6 +19,26 @@ public class OrderGetResp {
     private long createtime;
     @Parameter(desc = "order status. see the fucking docs.")
     private int status;
+    @Parameter(desc = "order uploaded img.")
+    private String img;
+    @Parameter(desc="user mobile")
+    private String contactMobile;
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public long getCreatetime() {
         return createtime;
@@ -52,12 +72,12 @@ public class OrderGetResp {
         this.itemName = itemName;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getStatus() {

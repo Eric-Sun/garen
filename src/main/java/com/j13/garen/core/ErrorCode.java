@@ -15,7 +15,7 @@ public class ErrorCode {
     }
 
 
-    public static class Account{
+    public static class Account {
         public static int PASSWORD_NOT_RIGHT = 2001;
         public static int NAME_EXISTED = 2003;
     }
@@ -25,6 +25,7 @@ public class ErrorCode {
         public static int NOT_FOUND_ACTION = 2;
         public static int ACTION_REFLECT_ERROR = 3;
         public static int REFLECT_ERROR = 4;
+        public static int PARSE_REQUEST_POST_DATA_ERROR = 5;
     }
 
 

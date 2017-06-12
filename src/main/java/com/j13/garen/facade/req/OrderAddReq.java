@@ -1,14 +1,35 @@
 package com.j13.garen.facade.req;
 
 import com.j13.garen.poppy.anno.Parameter;
+import org.apache.commons.fileupload.FileItem;
 
 public class OrderAddReq {
     @Parameter(desc = "user id")
     private int userId;
-    @Parameter(desc="item id")
+    @Parameter(desc = "item id")
     private int itemId;
-    @Parameter(desc="final price. ")
+    @Parameter(desc = "final price. ")
     private float finalPrice;
+    @Parameter(desc = "")
+    private FileItem img;
+    @Parameter(desc="")
+    private String contactMobile;
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
+    }
+
+    public FileItem getImg() {
+        return img;
+    }
+
+    public void setImg(FileItem img) {
+        this.img = img;
+    }
 
     public float getFinalPrice() {
         return finalPrice;

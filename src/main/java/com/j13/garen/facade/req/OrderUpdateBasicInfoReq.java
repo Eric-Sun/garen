@@ -1,6 +1,7 @@
 package com.j13.garen.facade.req;
 
 import com.j13.garen.poppy.anno.Parameter;
+import org.apache.commons.fileupload.FileItem;
 
 public class OrderUpdateBasicInfoReq {
     @Parameter(desc = " order id")
@@ -9,6 +10,26 @@ public class OrderUpdateBasicInfoReq {
     private float finalPrice;
     @Parameter(desc=" item id")
     private int itemId;
+    @Parameter(desc="")
+    private FileItem img;
+    @Parameter(desc="contactMobile")
+    private String contactMobile;
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
+    }
+
+    public FileItem getImg() {
+        return img;
+    }
+
+    public void setImg(FileItem img) {
+        this.img = img;
+    }
 
     public int getItemId() {
         return itemId;

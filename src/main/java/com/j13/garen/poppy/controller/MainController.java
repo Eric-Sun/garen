@@ -6,6 +6,8 @@ import com.j13.garen.poppy.RequestData;
 import com.j13.garen.poppy.doc.DocManager;
 import com.j13.garen.poppy.doc.MethodDoc;
 import com.j13.garen.poppy.ErrorResponse;
+import com.j13.garen.poppy.exceptions.CommonException;
+import com.j13.garen.utils.JSONV2;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -14,10 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
@@ -39,21 +43,63 @@ public class MainController {
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        String act = request.getParameter("act");
-
+//        String postData = parseRequestPostData(request);
+//        if (!StringUtils.isEmpty(postData)) {
+//            LOG.info("post data . {}", postData);
+//        }
         RequestData requestData = parseRequest(request);
+        String act = requestData.getData().get("act").toString();
+        String postData = "";
 
-        LOG.info("request : {}", JSON.toJSONString(requestData.getData()));
+        LOG.info("request : {}", JSONV2.toJSONString(requestData));
         Object obj = null;
         try {
-            obj = dispatcher.dispatch(act, requestData);
+            obj = dispatcher.dispatch(act, requestData, postData);
         } catch (Exception e) {
             LOG.error(e.getMessage());
             obj = new ErrorResponse(ErrorCode.System.SYSTEM_ERROR);
         }
-        String json = JSON.toJSONString(obj);
-        LOG.info("response : {}", json);
-        response.getWriter().write(json);
+        String responseJson = null;
+        if (obj instanceof String) {
+            responseJson = (String) obj;
+        } else {
+            responseJson = JSON.toJSONString(obj);
+        }
+        LOG.info("response : {}", responseJson);
+        response.getWriter().write(responseJson);
+        response.flushBuffer();
+        return null;
+    }
+
+
+    @RequestMapping("/wechat")
+    public String wechat(HttpServletRequest request, HttpServletResponse response) throws IOException, FileUploadException {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        String postData = parseRequestPostData(request);
+        if (!StringUtils.isEmpty(postData)) {
+            LOG.info("post data . {}", postData);
+        }
+        RequestData requestData = parseRequest(request);
+        String act = requestData.getData().get("act").toString();
+
+        LOG.info("request : {}", JSONV2.toJSONString(requestData));
+        Object obj = null;
+        try {
+            obj = dispatcher.dispatch(act, requestData, postData);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            obj = new ErrorResponse(ErrorCode.System.SYSTEM_ERROR);
+        }
+        String responseJson = null;
+        if (obj instanceof String) {
+            responseJson = (String) obj;
+        } else {
+            responseJson = JSON.toJSONString(obj);
+        }
+        LOG.info("response : {}", responseJson);
+        response.getWriter().write(responseJson);
         response.flushBuffer();
         return null;
     }
@@ -102,5 +148,19 @@ public class MainController {
 
     }
 
+
+    public String parseRequestPostData(HttpServletRequest request) {
+        StringBuffer sb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null)
+                sb.append(line);
+            return sb.toString();
+        } catch (Exception e) {
+            LOG.error("parse request post data error.", e);
+            throw new CommonException(ErrorCode.System.PARSE_REQUEST_POST_DATA_ERROR);
+        }
+    }
 
 }
