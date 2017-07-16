@@ -1,6 +1,6 @@
 package com.j13.garen.api.req;
 
-import com.j13.garen.poppy.anno.Parameter;
+import com.j13.poppy.anno.Parameter;
 
 public class AccountUpdateReq {
     @Parameter(desc = "id")

@@ -22,12 +22,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="api" />
         <module name="che" />
-        <module name="garen" />
+        <module name="core" />
         <module name="jax" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="api" target="1.6" />
+      <module name="core" target="1.6" />
       <module name="garen" target="1.6" />
       <module name="jax" target="1.6" />
     </bytecodeTargetLevel>
