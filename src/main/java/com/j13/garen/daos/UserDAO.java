@@ -29,13 +29,12 @@ public class UserDAO {
 
 
     public UserVO loginByMobile(String mobile, String password) {
-        final String sql = "select id,nick_name from user where mobile=? and password=?";
+        final String sql = "select id from user where mobile=? and password=?";
         UserVO vo = j.queryForObject(sql, new Object[]{mobile, password}, new RowMapper<UserVO>() {
             @Override
             public UserVO mapRow(ResultSet resultSet, int i) throws SQLException {
                 UserVO vo = new UserVO();
                 vo.setUserId(resultSet.getInt(1));
-                vo.setUserName(resultSet.getString(2));
                 return vo;
             }
         });
@@ -44,16 +43,15 @@ public class UserDAO {
     }
 
 
-    public long register(final String mobile, final String password, final String nickName ) {
+    public long register(final String mobile, final String password) {
         KeyHolder holder = new GeneratedKeyHolder();
-        final String sql = "insert into user(mobile,password,nick_name,createtime,updatetime) values(?,?,?,now(),now())";
+        final String sql = "insert into user(mobile,password,createtime,updatetime) values(?,?,now(),now())";
         j.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 final PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, mobile);
                 pstmt.setString(2, password);
-                pstmt.setString(3, nickName);
                 return pstmt;
             }
         }, holder);
@@ -68,14 +66,6 @@ public class UserDAO {
 
         return count == 1 ? true : false;
 
-    }
-
-    public boolean nickNameExisted(String nickName) {
-
-        String sql = "select count(1) from user where nick_name=?";
-        int count = j.queryForObject(sql, new Object[]{nickName}, Integer.class);
-
-        return count == 1 ? true : false;
     }
 
 }

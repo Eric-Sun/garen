@@ -9,8 +9,8 @@ public class UserRegisterReq {
     private String mobile;
     @Parameter(desc="密码（已加密）")
     private String password;
-    @Parameter(desc="昵称")
-    private String nickName;
+//    @Parameter(desc="昵称")
+//    private String nickName;
 
     public String getMobile() {
         return mobile;
@@ -28,13 +28,13 @@ public class UserRegisterReq {
         this.password = password;
     }
 
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
+//    public String getNickName() {
+//        return nickName;
+//    }
+//
+//    public void setNickName(String nickName) {
+//        this.nickName = nickName;
+//    }
 
 
 

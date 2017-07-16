@@ -8,7 +8,7 @@ public class ServerStarter {
 
     private JettyServer instance = null;
     private static String tmpDir = null;
-    private static int port = 8080;
+    private static int port = 8081;
 
 
     public ServerStarter() {

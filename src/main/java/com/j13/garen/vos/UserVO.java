@@ -10,7 +10,6 @@ package com.j13.garen.vos;
 public class UserVO {
     private int code;
     private long userId;
-    private String userName;
 
     public long getUserId() {
         return userId;
@@ -18,14 +17,6 @@ public class UserVO {
 
     public void setUserId(long userId) {
         this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public int getCode() {

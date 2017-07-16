@@ -1,23 +1,6 @@
 package com.j13.garen.facade;
 
-import com.j13.garen.daos.AccountDAO;
-import com.j13.garen.daos.PainterInfoDAO;
-import com.j13.garen.facade.req.*;
-import com.j13.garen.facade.resp.PainterAddResp;
-import com.j13.garen.facade.resp.PainterGetResp;
-import com.j13.garen.facade.resp.PainterListResp;
-import com.j13.garen.facade.resp.PainterSimpleResp;
-import com.j13.garen.poppy.anno.Action;
-import com.j13.garen.poppy.core.CommandContext;
-import com.j13.garen.poppy.core.CommonResultResp;
-import com.j13.garen.poppy.util.BeanUtils;
-import com.j13.garen.vos.PainterVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class PainterFacade {

@@ -9,7 +9,6 @@ import com.j13.garen.poppy.util.EncryptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
