@@ -28,6 +28,8 @@ public class Constants {
         public static int ADD = 0;
         public static int UPDATE_STATUS = 1;
         public static int UPDATE_BASIC_INFO = 2;
+        public static int CANCEL=4;
+
     }
 
 
@@ -40,4 +42,10 @@ public class Constants {
         public static String AppSecret = "62bc146e2e9e29c8973d814949dd7a9f";
     }
 
+
+    public static class Banner{
+        public static int ONLINE=1;
+        public static int OFFLINE=0;
+
+    }
 }

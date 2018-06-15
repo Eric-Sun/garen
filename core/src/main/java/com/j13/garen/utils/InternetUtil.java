@@ -116,7 +116,9 @@ public class InternetUtil {
             HttpPost httpPost = new HttpPost(url);
             StringEntity content = new StringEntity(data, Charset.forName("utf-8"));
             httpPost.setEntity(content);
-            content.setContentType("application/json; charset=UTF-8");
+            content.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+            httpPost.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+            httpPost.setHeader("Cookie","PHPSESSID=hsjm32j9hk574k9tsdk7brqco2; webcms_session=a%3A6%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%222c681358e4f090fc6c2b5ff5488957e4%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A13%3A%22123.57.117.69%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A120%3A%22Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+10_12_4%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F59.0.3071.115+Safari%2F537.3%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1500340255%3Bs%3A9%3A%22user_data%22%3Bs%3A0%3A%22%22%3Bs%3A14%3A%22participant620%22%3Bi%3A1%3B%7D44d39a8647ebfb0240f20d255ab5f338; UM_distinctid=15d533f8938528-073654ff8a5ef2-30677808-fa000-15d533f8939acf; CNZZDATA1262242692=1152692324-1500336817-%7C1500336817");
             content.setContentEncoding("utf-8");
             response = httpclient.execute(httpPost);
             HttpEntity entity = response.getEntity();
@@ -150,4 +152,10 @@ public class InternetUtil {
     }
 
 
+    public static void main(String[] args) {
+        String s = "token=9f2cb8f141b2";
+        String data = InternetUtil.post("http://www.luckybabywudao.cn/index.php/welcome/vote/vXAKaPVngEzl",s);
+        System.out.println(data);
+
+    }
 }

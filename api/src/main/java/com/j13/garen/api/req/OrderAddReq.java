@@ -12,15 +12,25 @@ public class OrderAddReq {
     private float finalPrice;
     @Parameter(desc = "")
     private FileItem img;
-    @Parameter(desc="")
-    private String contactMobile;
+    @Parameter(desc = "")
+    private String remark;
+    @Parameter(desc = "")
+    private String orderNumber;
 
-    public String getContactMobile() {
-        return contactMobile;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setContactMobile(String contactMobile) {
-        this.contactMobile = contactMobile;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public FileItem getImg() {

@@ -21,15 +21,25 @@ public class OrderGetResp {
     private int status;
     @Parameter(desc = "order uploaded img.")
     private String img;
-    @Parameter(desc="user mobile")
-    private String contactMobile;
+    @Parameter(desc="")
+    private String remark;
+    @Parameter(desc="")
+    private String orderNumber;
 
-    public String getContactMobile() {
-        return contactMobile;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setContactMobile(String contactMobile) {
-        this.contactMobile = contactMobile;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getImg() {

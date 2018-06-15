@@ -2,6 +2,7 @@ package com.j13.garen.facade;
 
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class PainterFacade {
 
@@ -11,7 +12,7 @@ public class PainterFacade {
 //    AccountDAO accountDAO;
 //    @Autowired
 //    PainterInfoDAO painterInfoDAO;
-//
+
 //
 //    @Action(name = "painter.add", desc = "创建画师，admin来调用")
 //    public PainterAddResp add(CommandContext ctxt, PainterAddReq req) {

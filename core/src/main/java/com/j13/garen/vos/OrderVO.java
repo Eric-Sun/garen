@@ -11,15 +11,25 @@ public class OrderVO {
     private int status;
     private long createtime;
     private String img;
-    private String contactMobile;
+    private String remark;
+    private String orderNumber;
 
-    public String getContactMobile() {
-        return contactMobile;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setContactMobile(String contactMobile) {
-        this.contactMobile = contactMobile;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
 
     public String getImg() {
         return img;

@@ -5,6 +5,7 @@ import com.j13.garen.daos.OrderActionLogDAO;
 import com.j13.garen.daos.OrderDAO;
 import com.j13.garen.api.req.*;
 import com.j13.garen.api.resp.*;
+import com.j13.garen.services.OrderNumberService;
 import com.j13.poppy.core.CommonResultResp;
 import com.j13.poppy.util.BeanUtils;
 import com.j13.garen.core.Constants;
@@ -27,9 +28,9 @@ public class OrderFacade {
     @Autowired
     OrderDAO orderDAO;
     @Autowired
-    OrderActionLogDAO orderActionLogDAO;
-    @Autowired
     ThumbService thumbService;
+    @Autowired
+    OrderNumberService orderNumberService;
 
     @Action(name = "order.add", desc = "add an order by admin")
     public OrderAddResp add(CommandContext ctxt, OrderAddReq req) {
@@ -38,10 +39,10 @@ public class OrderFacade {
         String fileName = thumbService.uploadThumb(req.getImg());
 
         req.setImg(null);
-        orderActionLogDAO.add(Constants.ADMIN_ACCOUNT_ID, Constants.OrderActionType.ADD,
-                JSON.toJSONString(req));
+        String orderNumber = orderNumberService.gen();
+
         int orderId = orderDAO.add(req.getUserId(), req.getItemId(),
-                req.getFinalPrice(), Constants.OrderStatus.ORDER_CREATED, fileName, req.getContactMobile());
+                req.getFinalPrice(), Constants.OrderStatus.ORDER_CREATED, fileName, req.getRemark(), orderNumber);
         LOG.info("add order suc. id={}", orderId);
         resp.setOrderId(orderId);
         return resp;
@@ -50,8 +51,6 @@ public class OrderFacade {
     @Action(name = "order.updateBasicInfo", desc = " update basic info of an order")
     public CommonResultResp updateBasicInfo(CommandContext ctxt, OrderUpdateBasicInfoReq req) {
         CommonResultResp resp = new CommonResultResp();
-        orderActionLogDAO.add(Constants.ADMIN_ACCOUNT_ID, Constants.OrderActionType.UPDATE_BASIC_INFO,
-                JSON.toJSONString(req));
         if (req.getImg() == null) {
             orderDAO.updateBasicInfo(req.getOrderId(), req.getItemId(), req.getFinalPrice(), req.getContactMobile());
             LOG.info("update order suc. id={}", req.getOrderId());
@@ -67,8 +66,6 @@ public class OrderFacade {
     @Action(name = "order.updateStatus", desc = " update order's status")
     public CommonResultResp updateStatus(CommandContext ctxt, OrderUpdateStatusReq req) {
         CommonResultResp resp = new CommonResultResp();
-        orderActionLogDAO.add(Constants.ADMIN_ACCOUNT_ID, Constants.OrderActionType.UPDATE_STATUS,
-                JSON.toJSONString(req));
         orderDAO.updateStatus(req.getOrderId(), req.getStatus());
         LOG.info("update order status suc. orderId={},status={}", req.getOrderId(), req.getStatus());
         return resp;
@@ -77,13 +74,10 @@ public class OrderFacade {
     @Action(name = "order.delete", desc = " delete an order by orderId")
     public CommonResultResp delete(CommandContext ctxt, OrderDeleteReq req) {
         CommonResultResp resp = new CommonResultResp();
-        orderActionLogDAO.add(Constants.ADMIN_ACCOUNT_ID, Constants.OrderActionType.DELETE,
-                JSON.toJSONString(req));
         orderDAO.delete(req.getOrderId());
         LOG.info("delete order .orderId={}", req.getOrderId());
         return resp;
     }
-
 
     @Action(name = "order.get", desc = "get a order by order ID")
     public OrderGetResp get(CommandContext ctxt, OrderGetReq req) {
