@@ -73,18 +73,18 @@ public class OrderDAO {
         j.update(sql, new Object[]{itemId, finalPrice, contactMobile, orderId, Constants.DB.NOT_DELETED});
     }
 
-    public void updateStatus(int orderId, int status) {
-        String sql = "update `order` set status=?,updatetime=now() where id=? and deleted=?";
-        j.update(sql, new Object[]{status, orderId, Constants.DB.NOT_DELETED});
+    public void updateStatus(String orderNumber, int status) {
+        String sql = "update `order` set status=?,updatetime=now() where order_number=? and deleted=?";
+        j.update(sql, new Object[]{status, orderNumber, Constants.DB.NOT_DELETED});
     }
 
-    public OrderVO get(int orderId) {
+    public OrderVO get(String orderNumber) {
         String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name," +
                 "o.createtime,o.img,o.id,o.remark,o.order_number " +
                 "from `order` o " +
                 "left outer join user u on u.id=o.user_id" +
-                " left outer join item i on i.id=o.item_id where o.id=? and o.deleted=? and i.deleted=? and u.deleted=?";
-        return j.queryForObject(sql, new Object[]{orderId, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED}, new RowMapper<OrderVO>() {
+                " left outer join item i on i.id=o.item_id where o.order_number=? and o.deleted=? and i.deleted=? and u.deleted=?";
+        return j.queryForObject(sql, new Object[]{orderNumber, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED}, new RowMapper<OrderVO>() {
             @Override
             public OrderVO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 OrderVO vo = new OrderVO();

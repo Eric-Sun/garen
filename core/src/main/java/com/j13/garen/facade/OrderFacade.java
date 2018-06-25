@@ -1,7 +1,5 @@
 package com.j13.garen.facade;
 
-import com.alibaba.fastjson.JSON;
-import com.j13.garen.daos.OrderActionLogDAO;
 import com.j13.garen.daos.OrderDAO;
 import com.j13.garen.api.req.*;
 import com.j13.garen.api.resp.*;
@@ -66,8 +64,8 @@ public class OrderFacade {
     @Action(name = "order.updateStatus", desc = " update order's status")
     public CommonResultResp updateStatus(CommandContext ctxt, OrderUpdateStatusReq req) {
         CommonResultResp resp = new CommonResultResp();
-        orderDAO.updateStatus(req.getOrderId(), req.getStatus());
-        LOG.info("update order status suc. orderId={},status={}", req.getOrderId(), req.getStatus());
+        orderDAO.updateStatus(req.getOrderNumber(), req.getStatus());
+        LOG.info("update order status suc. orderId={},status={}", req.getOrderNumber(), req.getStatus());
         return resp;
     }
 
@@ -82,7 +80,7 @@ public class OrderFacade {
     @Action(name = "order.get", desc = "get a order by order ID")
     public OrderGetResp get(CommandContext ctxt, OrderGetReq req) {
         OrderGetResp resp = new OrderGetResp();
-        OrderVO orderVO = orderDAO.get(req.getOrderId());
+        OrderVO orderVO = orderDAO.get(req.getOrderNumber());
         BeanUtils.copyProperties(resp, orderVO);
         return resp;
     }

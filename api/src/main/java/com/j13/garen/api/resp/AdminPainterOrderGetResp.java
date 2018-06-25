@@ -1,10 +1,11 @@
 package com.j13.garen.api.resp;
 
+import com.google.common.collect.Lists;
 import com.j13.poppy.anno.Parameter;
 
+import java.util.List;
+
 public class AdminPainterOrderGetResp {
-    @Parameter(desc = "order id")
-    private int id;
     @Parameter(desc = "item's id")
     private int itemId;
     @Parameter(desc = "item's name")
@@ -19,6 +20,16 @@ public class AdminPainterOrderGetResp {
     private String remark;
     @Parameter(desc="")
     private String orderNumber;
+    @Parameter(desc="")
+    private List<AdminPainterOrderActionRecordResp> actionRecordList = Lists.newLinkedList();
+
+    public List<AdminPainterOrderActionRecordResp> getActionRecordList() {
+        return actionRecordList;
+    }
+
+    public void setActionRecordList(List<AdminPainterOrderActionRecordResp> actionRecordList) {
+        this.actionRecordList = actionRecordList;
+    }
 
     public String getOrderNumber() {
         return orderNumber;
@@ -66,14 +77,6 @@ public class AdminPainterOrderGetResp {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getStatus() {

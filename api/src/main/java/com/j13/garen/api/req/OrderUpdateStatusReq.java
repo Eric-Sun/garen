@@ -3,8 +3,8 @@ package com.j13.garen.api.req;
 import com.j13.poppy.anno.Parameter;
 
 public class OrderUpdateStatusReq {
-    @Parameter(desc=" order id")
-    private int orderId;
+    @Parameter(desc=" order number")
+    private String orderNumber;
     @Parameter(desc=" order status. see the docs")
     private int status;
 
@@ -19,12 +19,12 @@ public class OrderUpdateStatusReq {
         this.accountId = accountId;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public int getStatus() {

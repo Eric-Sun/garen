@@ -23,13 +23,17 @@ public class Constants {
         public static int ORDER_CREATED = 0;
     }
 
-    public static class OrderActionType {
-        public static final int DELETE = 3;
+    public static class OrderRecordActionType {
+        // 创建order
         public static int ADD = 0;
+        // 修改状态
         public static int UPDATE_STATUS = 1;
-        public static int UPDATE_BASIC_INFO = 2;
-        public static int CANCEL=4;
-
+        // 取消订单（只能是管理员）
+        public static int CANCEL=-1;
+        // 上传进度图片
+        public static int UPLOAD_IMG=2;
+        // 画家完成画作，在线审核
+        public static int FINISH=3;
     }
 
 

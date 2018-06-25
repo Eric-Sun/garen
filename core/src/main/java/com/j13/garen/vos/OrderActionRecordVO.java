@@ -1,10 +1,22 @@
 package com.j13.garen.vos;
 
-public class OrderActionLogVO {
+public class OrderActionRecordVO {
     private int accountId;
     private int actionType;
-    private String content;
+    private String img;
+    private String remark;
     private long createtime;
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    private String orderNumber;
+
 
     public long getCreatetime() {
         return createtime;
@@ -30,11 +42,19 @@ public class OrderActionLogVO {
         this.actionType = actionType;
     }
 
-    public String getContent() {
-        return content;
+    public String getImg() {
+        return img;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
