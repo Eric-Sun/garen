@@ -21,10 +21,20 @@ public class OrderGetResp {
     private int status;
     @Parameter(desc = "order uploaded img.")
     private String img;
-    @Parameter(desc="")
+    @Parameter(desc = "")
     private String remark;
-    @Parameter(desc="")
+    @Parameter(desc = "")
     private String orderNumber;
+    @Parameter(desc = "")
+    private int painterId;
+
+    public int getPainterId() {
+        return painterId;
+    }
+
+    public void setPainterId(int painterId) {
+        this.painterId = painterId;
+    }
 
     public String getOrderNumber() {
         return orderNumber;

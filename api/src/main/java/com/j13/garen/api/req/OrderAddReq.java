@@ -14,16 +14,6 @@ public class OrderAddReq {
     private FileItem img;
     @Parameter(desc = "")
     private String remark;
-    @Parameter(desc = "")
-    private String orderNumber;
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
 
     public String getRemark() {
         return remark;

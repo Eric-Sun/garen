@@ -29,13 +29,16 @@ public class Constants {
         // 修改状态
         public static int UPDATE_STATUS = 1;
         // 取消订单（只能是管理员）
-        public static int CANCEL=-1;
+        public static int CANCEL = -1;
         // 上传进度图片
-        public static int UPLOAD_IMG=2;
+        public static int UPLOAD_IMG = 2;
         // 画家完成画作，在线审核
-        public static int FINISH=3;
+        public static int FINISH = 3;
     }
 
+    public static class Order {
+        public static int NO_PAINTER = -1;
+    }
 
     public static class Wechat {
         public static String TOKEN = "aaaa";
@@ -47,9 +50,9 @@ public class Constants {
     }
 
 
-    public static class Banner{
-        public static int ONLINE=1;
-        public static int OFFLINE=0;
+    public static class Banner {
+        public static int ONLINE = 1;
+        public static int OFFLINE = 0;
 
     }
 }

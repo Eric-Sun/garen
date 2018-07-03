@@ -13,6 +13,15 @@ public class OrderVO {
     private String img;
     private String remark;
     private String orderNumber;
+    private int painterId;
+
+    public int getPainterId() {
+        return painterId;
+    }
+
+    public void setPainterId(int painterId) {
+        this.painterId = painterId;
+    }
 
     public String getOrderNumber() {
         return orderNumber;

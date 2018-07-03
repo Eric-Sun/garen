@@ -72,8 +72,8 @@ public class OrderFacade {
     @Action(name = "order.delete", desc = " delete an order by orderId")
     public CommonResultResp delete(CommandContext ctxt, OrderDeleteReq req) {
         CommonResultResp resp = new CommonResultResp();
-        orderDAO.delete(req.getOrderId());
-        LOG.info("delete order .orderId={}", req.getOrderId());
+        orderDAO.delete(req.getOrderNumber());
+        LOG.info("delete order .orderNumber={}", req.getClass());
         return resp;
     }
 
