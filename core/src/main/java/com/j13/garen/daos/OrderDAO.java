@@ -162,4 +162,8 @@ public class OrderDAO {
     }
 
 
+    public void setPainter(String orderNumber, int accountId) {
+        String sql = "update `order` set painter_id=? where order_number=? and deleted=?";
+        j.update(sql, new Object[]{accountId, orderNumber, Constants.DB.NOT_DELETED});
+    }
 }

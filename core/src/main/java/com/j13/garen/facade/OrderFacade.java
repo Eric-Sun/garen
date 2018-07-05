@@ -103,5 +103,11 @@ public class OrderFacade {
         return resp;
     }
 
+    @Action(name = "order.setPainter", desc = "")
+    public CommonResultResp setPainter(CommandContext ctxt, OrderSetPainterReq req) {
+        orderDAO.setPainter(req.getOrderNumber(), req.getAccountId());
+        return CommonResultResp.success();
+    }
+
 
 }
