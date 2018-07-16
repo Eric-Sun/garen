@@ -11,7 +11,7 @@ public class OrderAddReq {
     @Parameter(desc = "final price. ")
     private float finalPrice;
     @Parameter(desc = "")
-    private FileItem img;
+    private int imgId;
     @Parameter(desc = "")
     private String remark;
 
@@ -23,12 +23,12 @@ public class OrderAddReq {
         this.remark = remark;
     }
 
-    public FileItem getImg() {
-        return img;
+    public int getImgId() {
+        return imgId;
     }
 
-    public void setImg(FileItem img) {
-        this.img = img;
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
     }
 
     public float getFinalPrice() {

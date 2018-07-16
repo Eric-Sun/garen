@@ -24,11 +24,11 @@ public class ImgDAO {
     public int insert(final String fileName, final int type) {
         KeyHolder holder = new GeneratedKeyHolder();
 
-        final String sql = "insert into img (name,type,createtiem,updatetime) values (?,?,?,?)";
+        final String sql = "insert into img (name,type,createtime,updatetime) values (?,?,now(),now())";
         j.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement pstmt = con.prepareStatement(sql);
+                PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, fileName);
                 pstmt.setInt(2, type);
                 return pstmt;

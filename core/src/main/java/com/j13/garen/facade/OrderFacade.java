@@ -38,15 +38,11 @@ public class OrderFacade {
     public OrderAddResp add(CommandContext ctxt, OrderAddReq req) {
         OrderAddResp resp = new OrderAddResp();
         // save the img
-        String fileName = thumbService.uploadThumb(req.getImg());
-        int imgId = thumbService.insertOrderImg(fileName);
-
-        req.setImg(null);
         String orderNumber = orderNumberService.gen();
 
 
         int orderId = orderDAO.add(req.getUserId(), req.getItemId(),
-                req.getFinalPrice(), Constants.OrderStatus.ORDER_CREATED, imgId, req.getRemark(), orderNumber);
+                req.getFinalPrice(), Constants.OrderStatus.ORDER_CREATED, req.getImgId(), req.getRemark(), orderNumber);
         LOG.info("add order suc. id={}", orderId);
         resp.setOrderId(orderId);
         return resp;
