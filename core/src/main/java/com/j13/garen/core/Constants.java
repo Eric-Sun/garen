@@ -55,4 +55,9 @@ public class Constants {
         public static int OFFLINE = 0;
 
     }
+
+    public static class IMG_TYPE {
+        public static int ORDER = 1;
+        public static int ORDER_RECORD = 2;
+    }
 }

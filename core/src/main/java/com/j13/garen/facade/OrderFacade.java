@@ -1,9 +1,11 @@
 package com.j13.garen.facade;
 
+import com.j13.garen.daos.ImgDAO;
 import com.j13.garen.daos.OrderDAO;
 import com.j13.garen.api.req.*;
 import com.j13.garen.api.resp.*;
 import com.j13.garen.services.OrderNumberService;
+import com.j13.garen.vos.ImgVO;
 import com.j13.poppy.core.CommonResultResp;
 import com.j13.poppy.util.BeanUtils;
 import com.j13.garen.core.Constants;
@@ -29,37 +31,41 @@ public class OrderFacade {
     ThumbService thumbService;
     @Autowired
     OrderNumberService orderNumberService;
+    @Autowired
+    ImgDAO imgDAO;
 
     @Action(name = "order.add", desc = "add an order by admin")
     public OrderAddResp add(CommandContext ctxt, OrderAddReq req) {
         OrderAddResp resp = new OrderAddResp();
         // save the img
         String fileName = thumbService.uploadThumb(req.getImg());
+        int imgId = thumbService.insertOrderImg(fileName);
 
         req.setImg(null);
         String orderNumber = orderNumberService.gen();
 
+
         int orderId = orderDAO.add(req.getUserId(), req.getItemId(),
-                req.getFinalPrice(), Constants.OrderStatus.ORDER_CREATED, fileName, req.getRemark(), orderNumber);
+                req.getFinalPrice(), Constants.OrderStatus.ORDER_CREATED, imgId, req.getRemark(), orderNumber);
         LOG.info("add order suc. id={}", orderId);
         resp.setOrderId(orderId);
         return resp;
     }
 
-    @Action(name = "order.updateBasicInfo", desc = " update basic info of an order")
-    public CommonResultResp updateBasicInfo(CommandContext ctxt, OrderUpdateBasicInfoReq req) {
-        CommonResultResp resp = new CommonResultResp();
-        if (req.getImg() == null) {
-            orderDAO.updateBasicInfo(req.getOrderId(), req.getItemId(), req.getFinalPrice(), req.getContactMobile());
-            LOG.info("update order suc. id={}", req.getOrderId());
-        } else {
-            String fileName = thumbService.uploadThumb(req.getImg());
-            orderDAO.updateBasicInfo(req.getOrderId(), req.getItemId(), req.getFinalPrice(), fileName);
-            LOG.info("update order suc. id={},fileName={}", req.getOrderId(), fileName);
-        }
-
-        return resp;
-    }
+//    @Action(name = "order.updateBasicInfo", desc = " update basic info of an order")
+//    public CommonResultResp updateBasicInfo(CommandContext ctxt, OrderUpdateBasicInfoReq req) {
+//        CommonResultResp resp = new CommonResultResp();
+//        if (req.getImg() == null) {
+//            orderDAO.updateBasicInfo(req.getOrderId(), req.getItemId(), req.getFinalPrice(), req.getContactMobile());
+//            LOG.info("update order suc. id={}", req.getOrderId());
+//        } else {
+//            String fileName = thumbService.uploadThumb(req.getImg());
+//            orderDAO.updateBasicInfo(req.getOrderId(), req.getItemId(), req.getFinalPrice(), fileName);
+//            LOG.info("update order suc. id={},fileName={}", req.getOrderId(), fileName);
+//        }
+//
+//        return resp;
+//    }
 
     @Action(name = "order.updateStatus", desc = " update order's status")
     public CommonResultResp updateStatus(CommandContext ctxt, OrderUpdateStatusReq req) {
@@ -81,6 +87,8 @@ public class OrderFacade {
     public OrderGetResp get(CommandContext ctxt, OrderGetReq req) {
         OrderGetResp resp = new OrderGetResp();
         OrderVO orderVO = orderDAO.get(req.getOrderNumber());
+        ImgVO imgVO = imgDAO.get(orderVO.getImgId());
+        orderVO.setImg(imgVO);
         BeanUtils.copyProperties(resp, orderVO);
         return resp;
     }
@@ -96,6 +104,8 @@ public class OrderFacade {
         }
         for (OrderVO vo : list) {
             OrderGetResp r = new OrderGetResp();
+            ImgVO imgVO = imgDAO.get(vo.getImgId());
+            vo.setImg(imgVO);
             BeanUtils.copyProperties(r, vo);
             resp.getList().add(r);
         }
@@ -109,5 +119,14 @@ public class OrderFacade {
         return CommonResultResp.success();
     }
 
+    @Action(name = "order.uploadImg", desc = "")
+    public OrderUploadImgResp uploadImg(CommandContext ctxt, OrderUploadImgReq req) {
+        String fileName = thumbService.uploadThumb(req.getImg());
+
+        int id = thumbService.insertOrderImg(fileName);
+        OrderUploadImgResp resp = new OrderUploadImgResp();
+        resp.setImgId(id);
+        return resp;
+    }
 
 }

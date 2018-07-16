@@ -23,11 +23,11 @@ public class OrderDAO {
     @Autowired
     JdbcTemplate j;
 
-    public int add(final int userId, final int itemId, final float finalPrice, final int status, final String img,
+    public int add(final int userId, final int itemId, final float finalPrice, final int status, final int imgId,
                    final String remark, final String orderNumber) {
         KeyHolder holder = new GeneratedKeyHolder();
         final String sql = "insert into `order` " +
-                "(user_id,item_id,final_price,status,createtime,updatetime,img,remark,order_number,painter_id) " +
+                "(user_id,item_id,final_price,status,createtime,updatetime,img_id,remark,order_number,painter_id) " +
                 "values" +
                 "(?,?,?,?,now(),now(),?,?,?,?)";
         j.update(new PreparedStatementCreator() {
@@ -38,7 +38,7 @@ public class OrderDAO {
                 pstmt.setInt(2, itemId);
                 pstmt.setFloat(3, finalPrice);
                 pstmt.setInt(4, status);
-                pstmt.setString(5, img);
+                pstmt.setInt(5, imgId);
                 pstmt.setString(6, remark);
                 pstmt.setString(7, orderNumber);
                 pstmt.setInt(8, Constants.Order.NO_PAINTER);
@@ -55,24 +55,18 @@ public class OrderDAO {
         j.update(sql, new Object[]{Constants.DB.DELETED, orderNumber});
     }
 
-    public void updateBasicInfo(int orderId, int itemId, float finalPrice, String img, String contactMobile) {
-        String sql = "update `order` set item_id=?,final_price=?,updatetime=now(),img=?,contact_mobile=? " +
-                "where id=? and deleted=?";
-        j.update(sql, new Object[]{itemId, finalPrice, img, contactMobile, orderId, Constants.DB.NOT_DELETED});
-    }
+//    public void updateBasicInfo(int orderId, int itemId, float finalPrice, int imgId, String contactMobile) {
+//        String sql = "update `order` set item_id=?,final_price=?,updatetime=now(),img_id=?,contact_mobile=? " +
+//                "where id=? and deleted=?";
+//        j.update(sql, new Object[]{itemId, finalPrice, imgId, contactMobile, orderId, Constants.DB.NOT_DELETED});
+//    }
 
-    /**
-     * without img
-     *
-     * @param orderId
-     * @param itemId
-     * @param finalPrice
-     */
-    public void updateBasicInfo(int orderId, int itemId, float finalPrice, String contactMobile) {
-        String sql = "update `order` set item_id=?,final_price=?,updatetime=now(),contact_mobile=? " +
-                "where id=? and deleted=?";
-        j.update(sql, new Object[]{itemId, finalPrice, contactMobile, orderId, Constants.DB.NOT_DELETED});
-    }
+
+//    public void updateBasicInfo(int orderId, int itemId, float finalPrice, String contactMobile) {
+//        String sql = "update `order` set item_id=?,final_price=?,updatetime=now(),contact_mobile=? " +
+//                "where id=? and deleted=?";
+//        j.update(sql, new Object[]{itemId, finalPrice, contactMobile, orderId, Constants.DB.NOT_DELETED});
+//    }
 
     public void updateStatus(String orderNumber, int status) {
         String sql = "update `order` set status=?,updatetime=now() where order_number=? and deleted=?";
@@ -81,7 +75,7 @@ public class OrderDAO {
 
     public OrderVO get(String orderNumber) {
         String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name," +
-                "o.createtime,o.img,o.id,o.remark,o.order_number,o.painter_id " +
+                "o.createtime,o.img_id,o.id,o.remark,o.order_number,o.painter_id " +
                 "from `order` o " +
                 "left outer join user u on u.id=o.user_id" +
                 " left outer join item i on i.id=o.item_id where o.order_number=? and o.deleted=? and i.deleted=? and u.deleted=?";
@@ -96,7 +90,7 @@ public class OrderDAO {
                 vo.setUserName(rs.getString(5));
                 vo.setItemName(rs.getString(6));
                 vo.setCreatetime(rs.getDate(7).getTime());
-                vo.setImg(rs.getString(8));
+                vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
                 vo.setOrderNumber(rs.getString(11));
@@ -109,7 +103,7 @@ public class OrderDAO {
 
     public List<OrderVO> list(int sizePerPage, int pageNum) {
         String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime," +
-                "o.img,o.id,o.remark,o.order_number,o.painter_id " +
+                "o.img_id,o.id,o.remark,o.order_number,o.painter_id " +
                 " from `order` o " +
                 "left outer join user u on u.id=o.user_id " +
                 "left outer join item i on i.id=o.item_id where o.deleted=? and u.deleted=? and i.deleted=? limit ?,? ";
@@ -124,7 +118,7 @@ public class OrderDAO {
                 vo.setItemName(rs.getString(5));
                 vo.setUserName(rs.getString(6));
                 vo.setCreatetime(rs.getDate(7).getTime());
-                vo.setImg(rs.getString(8));
+                vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
                 vo.setOrderNumber(rs.getString(11));
@@ -135,7 +129,7 @@ public class OrderDAO {
     }
 
     public List<OrderVO> list(int sizePerPage, int pageNum, int status) {
-        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime,o.img,o.id," +
+        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime,o.img_id,o.id," +
                 "o.remark,o.order_number " +
                 "from `order` o " +
                 "left outer join user u on u.id=o.user_id " +
@@ -152,7 +146,7 @@ public class OrderDAO {
                 vo.setUserName(rs.getString(5));
                 vo.setItemName(rs.getString(6));
                 vo.setCreatetime(rs.getDate(7).getTime());
-                vo.setImg(rs.getString(8));
+                vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
                 vo.setOrderNumber(rs.getString(11));

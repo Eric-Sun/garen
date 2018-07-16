@@ -10,10 +10,19 @@ public class OrderVO {
     private float finalPrice;
     private int status;
     private long createtime;
-    private String img;
+    private ImgVO img;
+    private int imgId;
     private String remark;
     private String orderNumber;
     private int painterId;
+
+    public int getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
+    }
 
     public int getPainterId() {
         return painterId;
@@ -39,12 +48,11 @@ public class OrderVO {
         this.remark = remark;
     }
 
-
-    public String getImg() {
+    public ImgVO getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(ImgVO img) {
         this.img = img;
     }
 

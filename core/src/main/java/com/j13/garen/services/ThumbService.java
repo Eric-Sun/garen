@@ -1,10 +1,13 @@
 package com.j13.garen.services;
 
+import com.j13.garen.core.Constants;
+import com.j13.garen.daos.ImgDAO;
 import com.j13.poppy.config.PropertiesConfiguration;
 import com.j13.poppy.exceptions.ServerException;
 import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -18,6 +21,8 @@ public class ThumbService {
     private static Logger LOG = LoggerFactory.getLogger(ThumbService.class);
 
     Random ran = new Random();
+    @Autowired
+    ImgDAO imgDAO;
 
     public String uploadThumb(FileItem item) {
 
@@ -52,6 +57,11 @@ public class ThumbService {
 
     private String getThumbSaveFile(String fileName) {
         return PropertiesConfiguration.getInstance().getStringValue("local.img.dir") + File.separator + fileName;
+    }
+
+
+    public int insertOrderImg(String fileName){
+        return imgDAO.insert(fileName, Constants.IMG_TYPE.ORDER);
     }
 
 
