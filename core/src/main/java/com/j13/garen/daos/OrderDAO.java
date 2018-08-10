@@ -160,4 +160,31 @@ public class OrderDAO {
         String sql = "update `order` set painter_id=? where order_number=? and deleted=?";
         j.update(sql, new Object[]{accountId, orderNumber, Constants.DB.NOT_DELETED});
     }
+
+    public List<OrderVO> listByUserId(int userId) {
+        String sql = "select o.user_id,o.item_id,o.final_price,o.status,i.name,u.nick_name,o.createtime,o.img_id,o.id," +
+                "o.remark,o.order_number " +
+                "from `order` o " +
+                "left outer join user u on u.id=o.user_id " +
+                "left outer join item i on i.id=o.item_id " +
+                "where u.id=? and  o.deleted=? and u.deleted=? and i.deleted=? ";
+        return j.query(sql, new Object[]{userId, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED}, new RowMapper<OrderVO>() {
+            @Override
+            public OrderVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+                OrderVO vo = new OrderVO();
+                vo.setUserId(rs.getInt(1));
+                vo.setItemId(rs.getInt(2));
+                vo.setFinalPrice(rs.getFloat(3));
+                vo.setStatus(rs.getInt(4));
+                vo.setUserName(rs.getString(5));
+                vo.setItemName(rs.getString(6));
+                vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setImgId(rs.getInt(8));
+                vo.setId(rs.getInt(9));
+                vo.setRemark(rs.getString(10));
+                vo.setOrderNumber(rs.getString(11));
+                return vo;
+            }
+        });
+    }
 }

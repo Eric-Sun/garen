@@ -1,9 +1,16 @@
-package com.j13.garen.vos;
+package com.j13.garen.api.resp;
 
-public class ImgVO {
+import com.j13.poppy.anno.Parameter;
+
+public class ImgGetResp {
+
+    @Parameter(desc = "")
     private int id;
+    @Parameter(desc = "")
     private String name;
+    @Parameter(desc = "")
     private int type;
+    @Parameter(desc = "")
     private String src;
 
     public String getSrc() {

@@ -1,5 +1,7 @@
 package com.j13.garen.vos;
 
+import com.j13.garen.api.resp.ImgGetResp;
+
 public class OrderVO {
 
     private int id;
@@ -10,7 +12,6 @@ public class OrderVO {
     private float finalPrice;
     private int status;
     private long createtime;
-    private ImgVO img;
     private int imgId;
     private String remark;
     private String orderNumber;
@@ -46,14 +47,6 @@ public class OrderVO {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public ImgVO getImg() {
-        return img;
-    }
-
-    public void setImg(ImgVO img) {
-        this.img = img;
     }
 
     public long getCreatetime() {

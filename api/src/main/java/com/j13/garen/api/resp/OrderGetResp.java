@@ -20,7 +20,7 @@ public class OrderGetResp {
     @Parameter(desc = "order status. see the fucking docs.")
     private int status;
     @Parameter(desc = "order uploaded img.")
-    private String img;
+    private ImgGetResp img;
     @Parameter(desc = "")
     private String remark;
     @Parameter(desc = "")
@@ -52,11 +52,11 @@ public class OrderGetResp {
         this.remark = remark;
     }
 
-    public String getImg() {
+    public ImgGetResp getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(ImgGetResp img) {
         this.img = img;
     }
 

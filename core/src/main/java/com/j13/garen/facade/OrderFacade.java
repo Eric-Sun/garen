@@ -4,6 +4,7 @@ import com.j13.garen.daos.ImgDAO;
 import com.j13.garen.daos.OrderDAO;
 import com.j13.garen.api.req.*;
 import com.j13.garen.api.resp.*;
+import com.j13.garen.services.ImgService;
 import com.j13.garen.services.OrderNumberService;
 import com.j13.garen.vos.ImgVO;
 import com.j13.poppy.core.CommonResultResp;
@@ -33,6 +34,9 @@ public class OrderFacade {
     OrderNumberService orderNumberService;
     @Autowired
     ImgDAO imgDAO;
+
+    @Autowired
+    ImgService imgService;
 
     @Action(name = "order.add", desc = "add an order by admin")
     public OrderAddResp add(CommandContext ctxt, OrderAddReq req) {
@@ -83,9 +87,11 @@ public class OrderFacade {
     public OrderGetResp get(CommandContext ctxt, OrderGetReq req) {
         OrderGetResp resp = new OrderGetResp();
         OrderVO orderVO = orderDAO.get(req.getOrderNumber());
-        ImgVO imgVO = imgDAO.get(orderVO.getImgId());
-        orderVO.setImg(imgVO);
+        ImgVO imgVO = imgService.loadImg(orderVO.getImgId());
+        ImgGetResp imgResp = new ImgGetResp();
+        BeanUtils.copyProperties(imgResp, imgVO);
         BeanUtils.copyProperties(resp, orderVO);
+        resp.setImg(imgResp);
         return resp;
     }
 
@@ -100,14 +106,35 @@ public class OrderFacade {
         }
         for (OrderVO vo : list) {
             OrderGetResp r = new OrderGetResp();
-            ImgVO imgVO = imgDAO.get(vo.getImgId());
-            vo.setImg(imgVO);
-            BeanUtils.copyProperties(r, vo);
+            ImgVO imgVO = imgService.loadImg(vo.getImgId());
+            ImgGetResp imgResp = new ImgGetResp();
+            BeanUtils.copyProperties(imgResp, imgVO);
+            BeanUtils.copyProperties(resp, vo);
+            r.setImg(imgResp);
             resp.getList().add(r);
         }
 
         return resp;
     }
+
+    @Action(name = "order.listByUserId", desc = "query order list.")
+    public OrderListResp listByUserId(CommandContext ctxt, OrderListByUserIdReq req) {
+        OrderListResp resp = new OrderListResp();
+        List<OrderVO> list = null;
+        list = orderDAO.listByUserId(req.getUserId());
+        for (OrderVO vo : list) {
+            OrderGetResp r = new OrderGetResp();
+            ImgVO imgVO = imgService.loadImg(vo.getImgId());
+            ImgGetResp imgResp = new ImgGetResp();
+            BeanUtils.copyProperties(imgResp, imgVO);
+            BeanUtils.copyProperties(r, vo);
+            r.setImg(imgResp);
+            resp.getList().add(r);
+        }
+
+        return resp;
+    }
+
 
     @Action(name = "order.setPainter", desc = "")
     public CommonResultResp setPainter(CommandContext ctxt, OrderSetPainterReq req) {
