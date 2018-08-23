@@ -27,6 +27,17 @@ public class OrderGetResp {
     private String orderNumber;
     @Parameter(desc = "")
     private int painterId;
+    @Parameter(desc = "")
+    private String statusStr;
+
+
+    public String getStatusStr() {
+        return statusStr;
+    }
+
+    public void setStatusStr(String statusStr) {
+        this.statusStr = statusStr;
+    }
 
     public int getPainterId() {
         return painterId;

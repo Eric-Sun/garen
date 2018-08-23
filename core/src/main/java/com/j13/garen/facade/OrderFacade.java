@@ -5,7 +5,7 @@ import com.j13.garen.daos.OrderDAO;
 import com.j13.garen.api.req.*;
 import com.j13.garen.api.resp.*;
 import com.j13.garen.services.ImgService;
-import com.j13.garen.services.OrderNumberService;
+import com.j13.garen.services.OrderService;
 import com.j13.garen.vos.ImgVO;
 import com.j13.poppy.core.CommonResultResp;
 import com.j13.poppy.util.BeanUtils;
@@ -31,7 +31,7 @@ public class OrderFacade {
     @Autowired
     ThumbService thumbService;
     @Autowired
-    OrderNumberService orderNumberService;
+    OrderService orderService;
     @Autowired
     ImgDAO imgDAO;
 
@@ -42,7 +42,7 @@ public class OrderFacade {
     public OrderAddResp add(CommandContext ctxt, OrderAddReq req) {
         OrderAddResp resp = new OrderAddResp();
         // save the img
-        String orderNumber = orderNumberService.gen();
+        String orderNumber = orderService.genOrderNumber();
 
 
         int orderId = orderDAO.add(req.getUserId(), req.getItemId(),
@@ -129,6 +129,7 @@ public class OrderFacade {
             BeanUtils.copyProperties(imgResp, imgVO);
             BeanUtils.copyProperties(r, vo);
             r.setImg(imgResp);
+            r.setStatusStr(orderService.getStatusStr(vo.getStatus()));
             resp.getList().add(r);
         }
 

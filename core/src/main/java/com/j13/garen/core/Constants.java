@@ -3,6 +3,10 @@ package com.j13.garen.core;
 
 public class Constants {
 
+    public static String APP_ID = "wxaa4fd4f99543a61a";
+    public static String APP_SECRET = "918c3669379d6c739e18d49bedae3763";
+
+
     public static int USER_IS_MACHINE = 1;
     public static int DEFAULT_IMG_ID = 0;
     public static int ADMIN_ACCOUNT_ID = -1;
@@ -59,5 +63,10 @@ public class Constants {
     public static class IMG_TYPE {
         public static int ORDER = 1;
         public static int ORDER_RECORD = 2;
+    }
+
+    public static class USER_SOURCE_TYPE {
+        public static int OWNER = 0;
+        public static int WECHAT = 1;
     }
 }
