@@ -89,7 +89,7 @@ public class OrderDAO {
                 vo.setStatus(rs.getInt(4));
                 vo.setUserName(rs.getString(5));
                 vo.setItemName(rs.getString(6));
-                vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setCreatetime(rs.getTimestamp(7).getTime());
                 vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
@@ -117,7 +117,7 @@ public class OrderDAO {
                 vo.setStatus(rs.getInt(4));
                 vo.setItemName(rs.getString(5));
                 vo.setUserName(rs.getString(6));
-                vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setCreatetime(rs.getTimestamp(7).getTime());
                 vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
@@ -145,7 +145,7 @@ public class OrderDAO {
                 vo.setStatus(rs.getInt(4));
                 vo.setUserName(rs.getString(5));
                 vo.setItemName(rs.getString(6));
-                vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setCreatetime(rs.getTimestamp(7).getTime());
                 vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
@@ -167,7 +167,7 @@ public class OrderDAO {
                 "from `order` o " +
                 "left outer join user u on u.id=o.user_id " +
                 "left outer join item i on i.id=o.item_id " +
-                "where u.id=? and  o.deleted=? and u.deleted=? and i.deleted=? ";
+                "where u.id=? and  o.deleted=? and u.deleted=? and i.deleted=? order by o.createtime desc";
         return j.query(sql, new Object[]{userId, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED, Constants.DB.NOT_DELETED}, new RowMapper<OrderVO>() {
             @Override
             public OrderVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -176,9 +176,9 @@ public class OrderDAO {
                 vo.setItemId(rs.getInt(2));
                 vo.setFinalPrice(rs.getFloat(3));
                 vo.setStatus(rs.getInt(4));
-                vo.setUserName(rs.getString(5));
-                vo.setItemName(rs.getString(6));
-                vo.setCreatetime(rs.getDate(7).getTime());
+                vo.setItemName(rs.getString(5));
+                vo.setUserName(rs.getString(6));
+                vo.setCreatetime(rs.getTimestamp(7).getTime());
                 vo.setImgId(rs.getInt(8));
                 vo.setId(rs.getInt(9));
                 vo.setRemark(rs.getString(10));
