@@ -5,7 +5,7 @@ import com.j13.poppy.anno.Parameter;
 
 import java.util.List;
 
-public class RoomChatInitRoomResp {
+public class RoomChatLoadContentResp {
     @Parameter(desc = "")
     private List<RoomChatContentResp> data = Lists.newLinkedList();
 

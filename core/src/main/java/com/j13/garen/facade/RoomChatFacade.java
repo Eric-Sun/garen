@@ -64,9 +64,9 @@ public class RoomChatFacade {
 
         // 检查这个userId是否在cr中
         boolean in = roomChatDAO.checkMember(crId, userId);
-            if (in) {
-                List<RoomChatContentVO> list = roomChatDAO.loadContent(crId, 10, 0);
-                for (RoomChatContentVO vo : list) {
+        if (in) {
+            List<RoomChatContentVO> list = roomChatDAO.loadContent(crId, 10, 0);
+            for (RoomChatContentVO vo : list) {
                 RoomChatContentResp innerResp = new RoomChatContentResp();
                 BeanUtils.copyProperties(innerResp, vo);
                 resp.getData().add(innerResp);
@@ -74,6 +74,12 @@ public class RoomChatFacade {
         }
 
         return resp;
+    }
+
+
+    public RoomChatLoadContentResp loadContent(CommandContext ctxt, RoomChatLoadContentReq req) {
+
+
     }
 
 }
