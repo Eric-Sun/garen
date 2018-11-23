@@ -6,6 +6,15 @@ public class RoomChatContentVO {
     private String fromUserName;
     private String fromUserAvatar;
     private long time;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public long getTime() {
         return time;

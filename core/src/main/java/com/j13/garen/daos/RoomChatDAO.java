@@ -66,11 +66,11 @@ public class RoomChatDAO {
     public boolean checkMember(int crId, int userId) {
         String sql = "select count(1) from chat_room_member where cr_id=? and user_id=? and deleted=?";
         int count = j.queryForObject(sql, new Object[]{crId, userId, Constants.DB.NOT_DELETED}, Integer.class);
-        return false;
+        return count == 1 ? true : false;
     }
 
 
-    public int addContent(final int userId, final int crId, final String content) {
+    public int sendContent(final int userId, final int crId, final String content) {
 
         KeyHolder holder = new GeneratedKeyHolder();
         final String sql = "insert into chat_room_content (cr_id,from_user_id,content,createtime) values (?,?,?,now())";
@@ -89,16 +89,51 @@ public class RoomChatDAO {
     }
 
 
-    public List<RoomChatContentVO> loadContent(int crId, int sizePerPage, int pageNum) {
-        String sql = "select from_user_id,content,createtime from chat_room_content where cr_id=? and deleted=? order by createtime DESC " +
-                "limit ?,?";
-        return j.query(sql, new Object[]{crId, Constants.DB.NOT_DELETED, sizePerPage, sizePerPage * pageNum}, new RowMapper<RoomChatContentVO>() {
+    public List<RoomChatContentVO> loadContent(int crId, int count) {
+        String sql = "select from_user_id,content,createtime,id from chat_room_content where cr_id=? and deleted=? order by createtime DESC " +
+                "limit 0,?";
+        return j.query(sql, new Object[]{crId, Constants.DB.NOT_DELETED, count}, new RowMapper<RoomChatContentVO>() {
             @Override
             public RoomChatContentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 RoomChatContentVO vo = new RoomChatContentVO();
                 vo.setFromUserId(rs.getInt(1));
                 vo.setContent(rs.getString(2));
                 vo.setTime(rs.getTimestamp(3).getTime());
+                vo.setId(rs.getInt(4));
+                return vo;
+            }
+        });
+    }
+
+    public List<RoomChatContentVO> loadContentByIndexToDown(int crId, int index) {
+        String sql = "select from_user_id,content,createtime,id from chat_room_content " +
+                "where cr_id=? and deleted=? and id>? order by createtime DESC " +
+                "";
+        return j.query(sql, new Object[]{crId, Constants.DB.NOT_DELETED, index}, new RowMapper<RoomChatContentVO>() {
+            @Override
+            public RoomChatContentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+                RoomChatContentVO vo = new RoomChatContentVO();
+                vo.setFromUserId(rs.getInt(1));
+                vo.setContent(rs.getString(2));
+                vo.setTime(rs.getTimestamp(3).getTime());
+                vo.setId(rs.getInt(4));
+                return vo;
+            }
+        });
+    }
+
+    public List<RoomChatContentVO> loadContentByIndexToUp(int crId, int index, int limit) {
+        String sql = "select from_user_id,content,createtime,id from chat_room_content " +
+                "where cr_id=? and deleted=? and id<? order by createtime DESC limit 0,?" +
+                "";
+        return j.query(sql, new Object[]{crId, Constants.DB.NOT_DELETED, index, limit}, new RowMapper<RoomChatContentVO>() {
+            @Override
+            public RoomChatContentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+                RoomChatContentVO vo = new RoomChatContentVO();
+                vo.setFromUserId(rs.getInt(1));
+                vo.setContent(rs.getString(2));
+                vo.setTime(rs.getTimestamp(3).getTime());
+                vo.setId(rs.getInt(4));
                 return vo;
             }
         });

@@ -3,8 +3,8 @@ package com.j13.garen.core;
 
 public class Constants {
 
-    public static String APP_ID = "wxaa4fd4f99543a61a";
-    public static String APP_SECRET = "918c3669379d6c739e18d49bedae3763";
+    public static String APP_ID = "wx2d015e71c9f5362a";
+    public static String APP_SECRET = "29c0a0547b381b38bd68e7750897c186";
 
 
     public static int USER_IS_MACHINE = 1;
@@ -49,8 +49,8 @@ public class Constants {
 //        public static String APPID = "wx0d07487890a95d68";
 //        public static String AppSecret = "e71556c2f7b94b916451e0fc81b04f02";
 
-        public static String APPID = "wxe2ff872ab7c97d17";
-        public static String AppSecret = "62bc146e2e9e29c8973d814949dd7a9f";
+        public static String APPID = "wx2d015e71c9f5362a";
+        public static String AppSecret = "29c0a0547b381b38bd68e7750897c186";
     }
 
 

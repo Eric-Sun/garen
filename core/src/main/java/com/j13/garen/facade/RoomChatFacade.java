@@ -24,6 +24,7 @@ public class RoomChatFacade {
         String passwordAfterMD5 = MD5Util.getMD5String(req.getPassword());
 
         int crId = roomChatDAO.createRoom(userId, passwordAfterMD5);
+        roomChatDAO.addMember(crId, userId);
 
         RoomChatCreateRoomResp resp = new RoomChatCreateRoomResp();
         resp.setCrId(crId);
@@ -56,7 +57,7 @@ public class RoomChatFacade {
     }
 
 
-    @Action(name = "roomChat.initRoom", desc = "")
+    @Action(name = "roomChat.initRoom", desc = "双方进入之后初始化聊天室的聊天内容等")
     public RoomChatInitRoomResp initRoom(CommandContext ctxt, RoomChatInitRoomReq req) {
         RoomChatInitRoomResp resp = new RoomChatInitRoomResp();
         int userId = req.getUserId();
@@ -65,7 +66,7 @@ public class RoomChatFacade {
         // 检查这个userId是否在cr中
         boolean in = roomChatDAO.checkMember(crId, userId);
         if (in) {
-            List<RoomChatContentVO> list = roomChatDAO.loadContent(crId, 10, 0);
+            List<RoomChatContentVO> list = roomChatDAO.loadContent(crId, 10);
             for (RoomChatContentVO vo : list) {
                 RoomChatContentResp innerResp = new RoomChatContentResp();
                 BeanUtils.copyProperties(innerResp, vo);
@@ -77,9 +78,33 @@ public class RoomChatFacade {
     }
 
 
+    @Action(name = "roomChat.loadContent", desc = "在当前位置往上和往下查找记录")
     public RoomChatLoadContentResp loadContent(CommandContext ctxt, RoomChatLoadContentReq req) {
-
-
+        RoomChatLoadContentResp resp = new RoomChatLoadContentResp();
+        List<RoomChatContentVO> list = null;
+        if (req.getType() == 1) {
+            // 往上查找
+            list = roomChatDAO.loadContentByIndexToUp(req.getCrId(), req.getIndex(), 10);
+        } else {
+            // 往下查找
+            list = roomChatDAO.loadContentByIndexToDown(req.getCrId(), req.getIndex());
+        }
+        for (RoomChatContentVO vo : list) {
+            RoomChatContentResp innerResp = new RoomChatContentResp();
+            BeanUtils.copyProperties(innerResp, vo);
+            resp.getData().add(innerResp);
+        }
+        return resp;
     }
+
+
+    @Action(name = "roomChat.sendContent", desc = "发送消息")
+    public RoomChatSendContentResp sendContent(CommandContext ctxt, RoomChatSendContentReq req) {
+        RoomChatSendContentResp resp = new RoomChatSendContentResp();
+        int id = roomChatDAO.sendContent(req.getUserId(), req.getCrId(), req.getContent());
+        resp.setId(id);
+        return resp;
+    }
+
 
 }

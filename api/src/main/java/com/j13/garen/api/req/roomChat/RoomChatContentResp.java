@@ -11,6 +11,26 @@ public class RoomChatContentResp {
     private String fromUserAvatar;
     @Parameter(desc = "")
     private long time;
+    @Parameter(desc = "")
+    private String content;
+    @Parameter(desc = "")
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getFromUserAvatar() {
         return fromUserAvatar;
